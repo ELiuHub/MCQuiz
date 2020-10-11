@@ -18,4 +18,12 @@ could use it to test their students' knowledge.
 doable at my current skill level. Also, like I mentioned before, it's practical. When I'm done making the application,
 I will be able to actually use it.
 
+## User Stories
+
+- As a user, I want to be able to make a new quiz
+- As a user, I want to be able to add questions to my quiz
+- As a user, I want to be able to remove questions from my quiz
+- As a user, I want to be able to view what questions are in my quiz
+- As a user, I want to be able to take my quiz
+
 
