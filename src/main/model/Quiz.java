@@ -12,6 +12,7 @@ public class Quiz {
         questions = new ArrayList<>();
     }
 
+    // returns list of questions in quiz
     public List<Questions> quizQuestions() {
         return questions;
     }
@@ -22,6 +23,7 @@ public class Quiz {
         questions.add(q);
     }
 
+    // REQUIRES: quiz cannot be empty, enter index position of question to be removed
     // MODIFIES: this
     // EFFECTS: remove question q from quiz
     public void removeQuestion(Questions q) {
@@ -35,9 +37,9 @@ public class Quiz {
 
     // EFFECTS: returns list of questions in quiz as strings
     public List<String> viewQuestions() {
-        List<String> listOfQuestions =  new ArrayList<>();
+        List<String> listOfQuestions = new ArrayList<>();
         for (Questions q : questions) {
-            listOfQuestions.add(q.question());
+            listOfQuestions.add(q.getQuestion());
         }
         return listOfQuestions;
     }

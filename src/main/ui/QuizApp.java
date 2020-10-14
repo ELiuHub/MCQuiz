@@ -7,11 +7,13 @@ import java.util.Scanner;
 
 // Quiz application
 public class QuizApp {
-    private Scanner input;
     private Quiz quiz;
+    private Questions question;
+    private Scanner input;
+    private int numKey;
     private String key;
 
-    // EFFECTS: runs the quiz app
+    // EFFECTS: runs the application
     public QuizApp() {
         runQuiz();
     }
@@ -23,6 +25,8 @@ public class QuizApp {
         System.out.println("Welcome to the Quiz App!");
 
         makeQuiz();
+        startMenu();
+        System.out.println("-----------------------------------------------------------------------------------------");
         takeQuiz();
     }
 
@@ -34,85 +38,96 @@ public class QuizApp {
         input = new Scanner(System.in);
     }
 
-    // REQUIRES: must enter a key instructed by program
-    // EFFECTS: Makes a new quiz
-    private void makeQuiz() {
-        QuizSetUp qsu;
-        int numKey;
-        System.out.println("Let's make a quiz!");
-
-        quiz.addQuestion(new Questions(qsu = new QuizSetUp()));
-
+    // EFFECTS: displays starting options of app
+    private void startMenu() {
         while (true) {
-            System.out.println("Would you like to add another question to the quiz? (Yes/No)");
+            System.out.println("Press v to view what questions you have. Press r to delete a question. "
+                    + "Press t to take the quiz.");
             key = input.next();
-            if (key.equals("no")) {
-                noMoreQuestions();
-                numKey = input.nextInt();
-                if (processCommand(numKey)) {
-                    break;
-                }
+            if (key.equals("t")) {
+                break;
+            } else if (key.equals("v")) {
+                System.out.println(quiz.viewQuestions());
+            } else if (key.equals("r")) {
+                userDeleteQuestion();
             } else {
-                quiz.addQuestion(new Questions(qsu = new QuizSetUp()));
+                System.out.println("Invalid input.");
             }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: makes a quiz
+    private void makeQuiz() {
+        quiz.addQuestion(question = new Questions("Here are some sample questions.", "ok",
+                "ok", "", "", ""));
+        quiz.addQuestion(question = new Questions("How is the app?", "amazing",
+                "ok", "good", "amazing", "bad"));
+        quiz.addQuestion(question = new Questions("What grade would you give it?", "A",
+                "A", "B", "C", "D"));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: asks user which question to remove
+    private void userDeleteQuestion() {
+        while (true) {
+            System.out.println("If you wish to go back, press b. Otherwise, press any key to continue.");
+            key = input.next();
+            if (key.equals("b")) {
+                break;
+            } else {
+                System.out.println("Which question would you like to delete?");
+                numKey = input.nextInt();
+                quiz.removeQuestion(quiz.quizQuestions().get(numKey));
+                System.out.println("These are the questions you have left:");
+                System.out.println(quiz.viewQuestions());
+            }
+        }
+    }
+
+    // REQUIRES: input one of the keys displayed
+    // EFFECTS: takes the quiz created
+    private void takeQuiz() {
+        int score = 0;
+
+        if (quiz.numQuestions() == 0) {
+            System.out.println("There seems to be no questions in the quiz :(");
+        } else {
+            for (Questions q : quiz.quizQuestions()) {
+                System.out.println(q.getQuestion());
+                System.out.println("Your options are:");
+                for (String s : q.options()) {
+                    System.out.println(s);
+                }
+
+                System.out.println("What is your answer?");
+                numKey = input.nextInt();
+
+                processCommand(q);
+
+                if (processCommand(q).equals(q.getAnswer())) {
+                    System.out.println("Correct!");
+                    score++;
+                } else {
+                    System.out.println("Sorry, that was incorrect.");
+                }
+            }
+            System.out.println("You got " + score + " out of " + quiz.numQuestions());
         }
     }
 
     // method from TellerApp
-    // REQUIRES: must enter one of the displayed keys
     // MODIFIES: this
-    // EFFECTS: processes user command
-    private boolean processCommand(int numKey) {
-        if (numKey == 4) {
-            return true;
+    // EFFECTS: processes user input
+    private String processCommand(Questions q) {
+        if (numKey == 1) {
+            return q.getOption1();
         } else if (numKey == 2) {
-            System.out.println(quiz.viewQuestions());
+            return q.getOption2();
         } else if (numKey == 3) {
-            System.out.println("Here are the questions you have: ");
-            System.out.println(quiz.viewQuestions());
-            System.out.println("Which question would you like to delete?");
-            numKey = input.nextInt();
-            quiz.removeQuestion(quiz.quizQuestions().get(numKey));
-            System.out.println("These are the questions you have left:");
-            System.out.println(quiz.viewQuestions());
+            return q.getOption3();
+        } else {
+            return q.getOption4();
         }
-        return false;
     }
-
-    // EFFECTS: Takes the quiz created
-    private void takeQuiz() {
-        int score = 0;
-
-        System.out.println("Let's start the quiz!");
-
-        for (Questions q : quiz.quizQuestions()) {
-            System.out.println(q.question());
-            System.out.println("Your options are:");
-
-            for (String s : q.options()) {
-                System.out.println(s);
-            }
-
-            System.out.println("What is your answer?");
-            input.nextLine();
-            key = input.nextLine();
-
-            if (key.equals(q.answer())) {
-                System.out.println("Correct!");
-                score++;
-            } else {
-                System.out.println("Sorry, that was incorrect.");
-            }
-        }
-        System.out.println("You got " + score + " out of " + quiz.numQuestions());
-    }
-
-    // EFFECTS: prints out instructions
-    private void noMoreQuestions() {
-        System.out.println("If you changed your mind, press 1 to add more questions.");
-        System.out.println("To see what questions you have written, press 2.");
-        System.out.println("To delete a question, press 3.");
-        System.out.println("To finish making your quiz, press 4.");
-    }
-
 }
