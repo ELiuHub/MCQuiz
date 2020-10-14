@@ -1,40 +1,47 @@
 package ui;
 
 import model.Quiz;
+import model.Questions;
 
 import java.util.Scanner;
 
+// Quiz application
 public class QuizApp {
     private Scanner input;
     private Quiz quiz;
     private String key;
 
+    // EFFECTS: runs the quiz app
     public QuizApp() {
-        runApp();
+        runQuiz();
     }
 
-    // EFFECTS: starts the quiz app
-    private void runApp() {
+    // method from TellerApp
+    private void runQuiz() {
         init();
 
         System.out.println("Welcome to the Quiz App!");
+
         makeQuiz();
         takeQuiz();
     }
 
-    // EFFECTS: Constructs a new quiz and scanner
+    // method from TellerApp
+    // MODIFIES: this
+    // EFFECTS: Initializes quiz and scanner
     private void init() {
         quiz = new Quiz();
         input = new Scanner(System.in);
     }
 
+    // REQUIRES: must enter a key instructed by program
     // EFFECTS: Makes a new quiz
     private void makeQuiz() {
+        QuizSetUp qsu;
         int numKey;
-
         System.out.println("Let's make a quiz!");
 
-        quiz.addQuestion(new Question());
+        quiz.addQuestion(new Questions(qsu = new QuizSetUp()));
 
         while (true) {
             System.out.println("Would you like to add another question to the quiz? (Yes/No)");
@@ -42,19 +49,34 @@ public class QuizApp {
             if (key.equals("no")) {
                 noMoreQuestions();
                 numKey = input.nextInt();
-                if (numKey == 4) {
+                if (processCommand(numKey)) {
                     break;
-                } else if (numKey == 2) {
-                    System.out.println(quiz.viewQuestions());
-                } else if (numKey == 3) {
-                    System.out.println("Which question would you like to delete?");
-                    numKey = input.nextInt();
-                    quiz.removeQuestion(quiz.quizQuestions().get(numKey));
-                    System.out.println("These are the questions you have left:");
-                    System.out.println(quiz.viewQuestions());
                 }
+            } else {
+                quiz.addQuestion(new Questions(qsu = new QuizSetUp()));
             }
         }
+    }
+
+    // method from TellerApp
+    // REQUIRES: must enter one of the displayed keys
+    // MODIFIES: this
+    // EFFECTS: processes user command
+    private boolean processCommand(int numKey) {
+        if (numKey == 4) {
+            return true;
+        } else if (numKey == 2) {
+            System.out.println(quiz.viewQuestions());
+        } else if (numKey == 3) {
+            System.out.println("Here are the questions you have: ");
+            System.out.println(quiz.viewQuestions());
+            System.out.println("Which question would you like to delete?");
+            numKey = input.nextInt();
+            quiz.removeQuestion(quiz.quizQuestions().get(numKey));
+            System.out.println("These are the questions you have left:");
+            System.out.println(quiz.viewQuestions());
+        }
+        return false;
     }
 
     // EFFECTS: Takes the quiz created
@@ -63,14 +85,19 @@ public class QuizApp {
 
         System.out.println("Let's start the quiz!");
 
-        for (Question q : quiz.quizQuestions()) {
-            System.out.println(q.getQuestion());
+        for (Questions q : quiz.quizQuestions()) {
+            System.out.println(q.question());
             System.out.println("Your options are:");
-            q.getOptions();
+
+            for (String s : q.options()) {
+                System.out.println(s);
+            }
+
             System.out.println("What is your answer?");
             input.nextLine();
             key = input.nextLine();
-            if (key.equals(q.getCorrectAnswer())) {
+
+            if (key.equals(q.answer())) {
                 System.out.println("Correct!");
                 score++;
             } else {
@@ -80,6 +107,7 @@ public class QuizApp {
         System.out.println("You got " + score + " out of " + quiz.numQuestions());
     }
 
+    // EFFECTS: prints out instructions
     private void noMoreQuestions() {
         System.out.println("If you changed your mind, press 1 to add more questions.");
         System.out.println("To see what questions you have written, press 2.");
