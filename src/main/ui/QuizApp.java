@@ -31,7 +31,6 @@ public class QuizApp {
     }
 
     // method from TellerApp
-    // MODIFIES: this
     // EFFECTS: Initializes quiz and scanner
     private void init() {
         quiz = new Quiz();
@@ -85,7 +84,6 @@ public class QuizApp {
         }
     }
 
-    // REQUIRES: input one of the keys displayed
     // EFFECTS: takes the quiz created
     private void takeQuiz() {
         int score = 0;
@@ -117,7 +115,7 @@ public class QuizApp {
     }
 
     // method from TellerApp
-    // MODIFIES: this
+    // REQUIRES: 1 <= numKey <= 4
     // EFFECTS: processes user input
     private String processCommand(Questions q) {
         if (numKey == 1) {
