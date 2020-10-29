@@ -1,5 +1,8 @@
 package model;
 
+import exceptions.LastQuestionException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,13 +20,14 @@ class QuizTest {
 
     @BeforeEach
     public void setUp() {
-        quiz = new Quiz();
+        quiz = new Quiz("Quiz");
         questions = new Questions("how are you", "good",
                 "ok", "bad", "sad", "mad");
     }
 
     @Test
     public void testConstructor() {
+        assertEquals("Quiz", quiz.getName());
         assertEquals(0, quiz.numQuestions());
     }
 
@@ -42,20 +46,26 @@ class QuizTest {
     }
 
     @Test
-    public void testRemoveQuestionOnce() {
+    public void testRemoveQuestion() {
         quiz.addQuestion(questions);
         quiz.addQuestion(questions);
-        quiz.removeQuestion(questions);
+        try {
+            quiz.removeQuestion(questions);
+        } catch (LastQuestionException e) {
+            fail("LastQuestionException thrown, not expected");
+        }
         assertEquals(1, quiz.numQuestions());
     }
 
     @Test
-    public void testRemoveMultipleQuestions() {
-        for (int i = 0; i < numTimes; i++) {
-            quiz.addQuestion(questions);
+    public void testRemoveQuestionExceptionExpected() {
+        quiz.addQuestion(questions);
+        try {
             quiz.removeQuestion(questions);
+            fail("This is your last question!");
+        } catch (LastQuestionException e) {
+            // expected
         }
-        assertEquals(0, quiz.numQuestions());
     }
 
     @Test
@@ -92,5 +102,27 @@ class QuizTest {
             quiz.addQuestion(questions);
         }
         assertEquals(loq, quiz.quizQuestions());
+    }
+
+    @Test
+    public void testToJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", quiz.getName());
+        json.put("questions", quiz.questionsToJson());
+        assertEquals(json.toString(), quiz.toJson().toString());
+    }
+
+    @Test
+    public void testQuestionsToJson() {
+        loq = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < numTimes; i++) {
+            loq.add(questions);
+            quiz.addQuestion(questions);
+        }
+        for (Questions q : loq) {
+            jsonArray.put(q.toJson());
+        }
+        assertEquals(jsonArray.toString(), quiz.questionsToJson().toString());
     }
 }

@@ -1,15 +1,26 @@
 package model;
 
+import exceptions.LastQuestionException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // Represents a quiz
-public class Quiz {
+public class Quiz implements Writable {
     private List<Questions> questions;
+    String name;
 
-    // EFFECTS: Constructs a quiz with no questions
-    public Quiz() {
+    // EFFECTS: Constructs a quiz with no questions and a name
+    public Quiz(String name) {
+        this.name = name;
         questions = new ArrayList<>();
+    }
+
+    public String getName() {
+        return name;
     }
 
     // returns list of questions in quiz
@@ -23,10 +34,13 @@ public class Quiz {
         questions.add(q);
     }
 
-    // REQUIRES: quiz cannot be empty, enter index position of question to be removed
     // MODIFIES: this
-    // EFFECTS: remove question q from quiz
-    public void removeQuestion(Questions q) {
+    // EFFECTS: if last question in quiz throw LastQuestionException
+    //          otherwise remove question q from quiz
+    public void removeQuestion(Questions q) throws LastQuestionException {
+        if (questions.size() == 1) {
+            throw new LastQuestionException();
+        }
         questions.remove(q);
     }
 
@@ -43,4 +57,24 @@ public class Quiz {
         }
         return listOfQuestions;
     }
+
+    // method from JsonSerializationDemo
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("questions", questionsToJson());
+        return json;
+    }
+
+    // method from JsonSerializationDemo
+    // EFFECTS: returns things in this quiz as a JSON array
+    public JSONArray questionsToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Questions q : questions) {
+            jsonArray.put(q.toJson());
+        }
+        return jsonArray;
+    }
 }
+

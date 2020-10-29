@@ -1,0 +1,21 @@
+{
+    "name": "QuizTest",
+    "questions": [
+        {
+            "question": "how are you",
+            "answer": "good",
+            "option3": "terrible",
+            "option4": "no",
+            "option1": "bad",
+            "option2": "good"
+        },
+        {
+            "question": "hello",
+            "answer": "hi",
+            "option3": "hi",
+            "option4": "go away",
+            "option1": "stop",
+            "option2": "no"
+        }
+    ]
+}

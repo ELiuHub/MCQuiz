@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,5 +36,17 @@ public class QuestionsTest {
         listOfOptions.add("3. " + questions.getOption3());
         listOfOptions.add("4. " + questions.getOption4());
         assertEquals(listOfOptions, questions.options());
+    }
+
+    @Test
+    public void testToJson() {
+        JSONObject json = new JSONObject();
+        json.put("question", questions.getQuestion());
+        json.put("answer", questions.getAnswer());
+        json.put("option1", questions.getOption1());
+        json.put("option2", questions.getOption2());
+        json.put("option3", questions.getOption3());
+        json.put("option4", questions.getOption4());
+        assertEquals(json.toString(), questions.toJson().toString());
     }
 }

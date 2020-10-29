@@ -1,10 +1,13 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // Represents a question, answer, and options
-public class Questions {
+public class Questions implements Writable {
     private String question;
     private String answer;
     private String option1;
@@ -55,6 +58,20 @@ public class Questions {
 
     public String getOption4() {
         return option4;
+    }
+
+
+    // method from JsonSerializationDemo
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("question", question);
+        json.put("answer", answer);
+        json.put("option1", option1);
+        json.put("option2", option2);
+        json.put("option3", option3);
+        json.put("option4", option4);
+        return json;
     }
 
 }

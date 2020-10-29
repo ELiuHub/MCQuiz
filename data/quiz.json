@@ -1,0 +1,11 @@
+{
+    "name": "Quiz",
+    "questions": [{
+        "question": "how are you",
+        "answer": "good",
+        "option3": "good",
+        "option4": "mad",
+        "option1": "bad",
+        "option2": "sad"
+    }]
+}
