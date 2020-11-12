@@ -1,11 +1,29 @@
 {
     "name": "Quiz",
-    "questions": [{
-        "question": "how are you",
-        "answer": "good",
-        "option3": "good",
-        "option4": "mad",
-        "option1": "bad",
-        "option2": "sad"
-    }]
+    "questions": [
+        {
+            "question": "how are you",
+            "answer": "good",
+            "option3": "good",
+            "option4": "terrible",
+            "option1": "bad",
+            "option2": "ok"
+        },
+        {
+            "question": "whats the capital of canada",
+            "answer": "ottawa",
+            "option3": "ottawa",
+            "option4": "victoria",
+            "option1": "vancouver",
+            "option2": "toronto"
+        },
+        {
+            "question": "what's the best bird",
+            "answer": "duck",
+            "option3": "ostrich",
+            "option4": "flamingo",
+            "option1": "duck",
+            "option2": "goose"
+        }
+    ]
 }

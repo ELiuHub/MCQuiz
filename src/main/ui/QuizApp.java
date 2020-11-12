@@ -10,7 +10,6 @@ import persistence.JsonWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -208,6 +207,7 @@ public class QuizApp {
         }
     }
 
+    // method from JsonSerializationDemo
     // EFFECTS: saves the quiz to file
     private void saveQuiz() {
         try {
@@ -220,6 +220,7 @@ public class QuizApp {
         }
     }
 
+    // method from JsonSerializationDemo
     // MODIFIES: this
     // EFFECTS: loads quiz from file
     private void loadQuiz() {
