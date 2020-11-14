@@ -117,8 +117,7 @@ public class QuizGUI extends JFrame {
             this.dispose();
             new MakeQuizGUI(quiz);
         } else if (e.getActionCommand().equals("startButton")) {
-            this.dispose();
-            new TakeQuizGUI(quiz);
+            new SaveLoadPrompt(quiz, this, null,"Loading...");
         } else {
             System.exit(0);
         }

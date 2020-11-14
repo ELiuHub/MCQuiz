@@ -1,7 +1,6 @@
 package ui;
 
 import model.Quiz;
-import persistence.JsonReader;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
@@ -28,7 +27,6 @@ public class TakeQuizGUI extends JFrame {
     private int score = 0;
     private int questionNum;
     private JLabel scoreLabel;
-    private static final String JSON_STORE = "./data/quiz.json";
 
     // EFFECTS: window where user takes quiz
     public TakeQuizGUI(Quiz quiz) {
@@ -124,8 +122,8 @@ public class TakeQuizGUI extends JFrame {
         buttonSettings(submitButton, "Submit", "submitButton", 550);
     }
 
-    // EFFECTS: produces what happens when option button is selected
-    private void optionPressed() {
+    // EFFECTS: produces what happens when option is selected
+    private void optionSelected() {
         if (op1.isSelected()) {
             checkAnswer(op1);
         } else if (op2.isSelected()) {
@@ -162,7 +160,7 @@ public class TakeQuizGUI extends JFrame {
     // EFFECTS: produces what happens when submit button is clicked
     private void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("submitButton")) {
-            optionPressed();
+            optionSelected();
             questionNum++;
 
             if (questionNum == quiz.numQuestions()) {
@@ -245,23 +243,8 @@ public class TakeQuizGUI extends JFrame {
         background.add(scoreLabel);
     }
 
-    // method from JsonSerializationDemo
-    // MODIFIES: this
-    // EFFECTS: loads quiz from file
-    private void loadQuiz() {
-        JsonReader jsonReader = new JsonReader(JSON_STORE);
-        try {
-            quiz = jsonReader.read();
-            System.out.println("Loaded " + quiz.getName() + " from " + JSON_STORE);
-        } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
-        }
-    }
-
     // EFFECTS: prints quiz to screen
     private void printQuiz() {
-        loadQuiz();
-
         for (int i = 0; i < quiz.numQuestions(); i++) {
             question.setText(quiz.quizQuestions().get(questionNum).getQuestion());
             op1.setText(quiz.quizQuestions().get(questionNum).getOption1());

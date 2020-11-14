@@ -6,6 +6,8 @@ import model.Quiz;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 // Makes a new quiz
 public class MakeQuizGUI extends JFrame {
@@ -172,7 +174,7 @@ public class MakeQuizGUI extends JFrame {
             addQuestions();
             removeText();
         } else if (e.getActionCommand().equals("finishButton")) {
-            new SavePrompt(quiz, this);
+            new SaveLoadPrompt(quiz, null, this,"Saving...");
         } else {
             new ViewQuestionsWindow(quiz);
         }
@@ -187,12 +189,21 @@ public class MakeQuizGUI extends JFrame {
         String option2 = enterOption2.getText();
         String option3 = enterOption3.getText();
         String option4 = enterOption4.getText();
+        List<String> options = new ArrayList<>();
+        options.add(option1);
+        options.add(option2);
+        options.add(option3);
+        options.add(option4);
 
         if (question.isEmpty()) {
             System.out.println("You didn't enter a question!");
+        } else if (answer.isEmpty()) {
+            System.out.println("You didn't enter an answer!");
+        } else if (options.isEmpty()) {
+            System.out.println("You didn't enter any options!");
         } else {
             quiz.addQuestion(new Questions(question, answer,
-                    option1, option2, option3, option4));
+                        option1, option2, option3, option4));
         }
     }
 

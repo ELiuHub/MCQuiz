@@ -2,20 +2,28 @@
     "name": "Quiz",
     "questions": [
         {
-            "question": "Do you like Harry Potter?",
-            "answer": "yes",
-            "option3": "maybe",
-            "option4": "yes",
-            "option1": "no",
-            "option2": "idk"
-        },
-        {
             "question": "How are you?",
             "answer": "good",
-            "option3": "stop",
-            "option4": "no",
-            "option1": "good",
-            "option2": "ok"
+            "option3": "ok",
+            "option4": "terrible",
+            "option1": "bad",
+            "option2": "good"
+        },
+        {
+            "question": "What colour is the sky?",
+            "answer": "blue",
+            "option3": "blue",
+            "option4": "red",
+            "option1": "green",
+            "option2": "black"
+        },
+        {
+            "question": "Who is the Prime Minister of Canada?",
+            "answer": "Justin Trudeau",
+            "option3": "Ryan Reynolds",
+            "option4": "Justin Trudeau",
+            "option1": "Justin Bieber",
+            "option2": "Michael Buble"
         }
     ]
 }
