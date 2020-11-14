@@ -14,16 +14,19 @@ public class SavePrompt extends JFrame {
     private JButton yesButton;
     private JButton noButton;
     private Quiz quiz;
+    private MakeQuizGUI makeQuizGUI;
     private static final String JSON_STORE = "./data/quiz.json";
 
     // EFFECTS: prompts user to save quiz
-    public SavePrompt(Quiz quiz) {
+    public SavePrompt(Quiz quiz, MakeQuizGUI makeQuizGUI) {
         super("Saving...");
         initSaveWindow();
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
         this.quiz = quiz;
+        this.makeQuizGUI = makeQuizGUI;
     }
 
     // MODIFIES: this
@@ -50,21 +53,19 @@ public class SavePrompt extends JFrame {
         yesButton = new JButton();
         noButton = new JButton();
 
-        yesButton.setText("Yes");
-        yesButton.setActionCommand("yesButton");
-        yesButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        yesButton.addActionListener(this::actionPerformed);
-        add(yesButton);
-        yesButton.setBounds(100, 80, 100, 40);
-        yesButton.setSize(60,30);
+        buttonSettings(yesButton, "Yes", "yesButton", 100);
+        buttonSettings(noButton, "No", "noButton", 200);
+    }
 
-        noButton.setText("No");
-        noButton.setActionCommand("noButton");
-        noButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        noButton.addActionListener(this::actionPerformed);
-        add(noButton);
-        noButton.setBounds(200, 80, 100, 40);
-        noButton.setSize(60,30);
+    // EFFECTS: button settings
+    private void buttonSettings(JButton button, String text, String ac, int x) {
+        button.setText(text);
+        button.setActionCommand(ac);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.addActionListener(this::actionPerformed);
+        add(button);
+        button.setBounds(x, 80, 100, 40);
+        button.setSize(60,30);
     }
 
     // method from JsonSerializationDemo
@@ -87,6 +88,7 @@ public class SavePrompt extends JFrame {
             saveQuiz();
         }
         dispose();
+        makeQuizGUI.dispose();
         new QuizGUI();
     }
 

@@ -24,6 +24,7 @@ public class QuizGUI extends JFrame {
         super("Quiz App");
         initStartWindow();
         pack();
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
@@ -38,9 +39,7 @@ public class QuizGUI extends JFrame {
 
         initImage();
 
-        initMakeQuizButton();
-        initStartQuizButton();
-        initQuitQuizButton();
+        initButtons();
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -65,7 +64,7 @@ public class QuizGUI extends JFrame {
         try {
             brainImage = ImageIO.read(new File("./data/brain.jpg"));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Image not found.");
         }
         brain = new JLabel(new ImageIcon(brainImage));
         background.add(brain);
@@ -88,52 +87,28 @@ public class QuizGUI extends JFrame {
         title.setBounds(180, 100, 800, 84);
     }
 
-    // MODIFIES: this
-    // EFFECTS: initializes the Make Quiz button
-    private void initMakeQuizButton() {
+    // EFFECTS: initializes all buttons
+    private void initButtons() {
         makeQuizButton = new JButton();
-
-        makeQuizButton.setBackground(new Color(230, 223, 204));
-        makeQuizButton.setFont(new Font("Times New Roman", Font.PLAIN, 36));
-        makeQuizButton.setForeground(new Color(0, 0, 0));
-        makeQuizButton.setText("Make Quiz");
-        makeQuizButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        makeQuizButton.setActionCommand("makeButton");
-        makeQuizButton.addActionListener(this::actionPerformed);
-        background.add(makeQuizButton);
-        makeQuizButton.setBounds(350, 270, 220, 60);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: initializes the Take Quiz button
-    private void initStartQuizButton() {
         startQuizButton = new JButton();
-
-        startQuizButton.setBackground(new Color(230, 223, 204));
-        startQuizButton.setFont(new Font("Times New Roman", Font.PLAIN, 36));
-        startQuizButton.setForeground(new Color(0, 0, 0));
-        startQuizButton.setText("Take Quiz");
-        startQuizButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        startQuizButton.setActionCommand("startButton");
-        startQuizButton.addActionListener(this::actionPerformed);
-        background.add(startQuizButton);
-        startQuizButton.setBounds(350, 370, 220, 60);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: initializes the Quit button
-    private void initQuitQuizButton() {
         quitButton = new JButton();
 
-        quitButton.setBackground(new Color(230, 223, 204));
-        quitButton.setFont(new Font("Times New Roman", Font.PLAIN, 36));
-        quitButton.setForeground(new Color(0, 0, 0));
-        quitButton.setText("Quit");
-        quitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        quitButton.setActionCommand("quitButton");
-        quitButton.addActionListener(this::actionPerformed);
-        background.add(quitButton);
-        quitButton.setBounds(350, 470, 220, 60);
+        buttonSettings(makeQuizButton, 270, "Make Quiz", "makeButton");
+        buttonSettings(startQuizButton, 370, "Take Quiz", "startButton");
+        buttonSettings(quitButton, 470, "Quit", "quitButton");
+    }
+
+    // EFFECTS: button settings
+    private void buttonSettings(JButton button, int y, String text, String ac) {
+        button.setBackground(new Color(230, 223, 204));
+        button.setFont(new Font("Times New Roman", Font.PLAIN, 36));
+        button.setForeground(new Color(0, 0, 0));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.addActionListener(this::actionPerformed);
+        button.setText(text);
+        button.setActionCommand(ac);
+        button.setBounds(350, y, 220, 60);
+        background.add(button);
     }
 
     // EFFECTS: produces what each button does when clicked
@@ -145,7 +120,7 @@ public class QuizGUI extends JFrame {
             this.dispose();
             new TakeQuizGUI(quiz);
         } else {
-            this.dispose();
+            System.exit(0);
         }
     }
 

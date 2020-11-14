@@ -20,6 +20,7 @@ public class ViewQuestionsWindow extends JFrame {
         super("Viewing Questions");
         initViewQuestionsWindow(quiz);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
         this.quiz = quiz;
@@ -65,6 +66,8 @@ public class ViewQuestionsWindow extends JFrame {
             quiz.removeQuestion(quiz.quizQuestions().get(index));
         } catch (LastQuestionException lastQuestionException) {
             System.out.println("This is the last question in the quiz!");
+        } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+            System.out.println("There are no questions!");
         }
     }
 

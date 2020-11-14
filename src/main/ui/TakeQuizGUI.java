@@ -3,9 +3,15 @@ package ui;
 import model.Quiz;
 import persistence.JsonReader;
 
+import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 // represents window that allows user to take quiz
@@ -16,6 +22,7 @@ public class TakeQuizGUI extends JFrame {
     private JRadioButton op3;
     private JRadioButton op4;
     private JButton submitButton;
+    private JButton finishButton;
     private JLabel question;
     private Quiz quiz;
     private int score = 0;
@@ -28,6 +35,7 @@ public class TakeQuizGUI extends JFrame {
         super(quiz.getName());
         initTakeQuizWindow();
         pack();
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
@@ -39,15 +47,13 @@ public class TakeQuizGUI extends JFrame {
     // EFFECTS: initializes window
     private void initTakeQuizWindow() {
         background = new JPanel();
-        question = new JLabel();
-        scoreLabel = new JLabel();
 
         setPreferredSize(new Dimension(1000, 700));
 
         background.setBackground(new Color(219, 204, 160));
         background.setLayout(null);
 
-        labelSettings();
+        initQuestionLabel();
 
         initOptions();
         initSubmitButton();
@@ -67,19 +73,15 @@ public class TakeQuizGUI extends JFrame {
     }
 
     // EFFECTS: sets up question label and score label
-    private void labelSettings() {
+    private void initQuestionLabel() {
+        question = new JLabel();
+
         question.setFont(new Font("Bahnschrift Condensed", Font.PLAIN, 40));
         question.setForeground(new Color(0, 0, 0));
         question.setText("question");
         question.setHorizontalAlignment(JLabel.CENTER);
         question.setBounds(0, 90, 1000, 40);
         background.add(question);
-
-        scoreLabel.setFont(new Font("Bahnschrift Condensed", Font.PLAIN, 30));
-        question.setForeground(new Color(0, 0, 0));
-        scoreLabel.setText("Score: " + score);
-        scoreLabel.setBounds(20, 20, 200, 40);
-        background.add(scoreLabel);
     }
 
     // MODIFIES: this
@@ -90,17 +92,10 @@ public class TakeQuizGUI extends JFrame {
         op3 = new JRadioButton();
         op4 = new JRadioButton();
 
-        op1.setActionCommand("op1");
-        op2.setActionCommand("op2");
-        op3.setActionCommand("op3");
-        op4.setActionCommand("op4");
-
-        op1.addActionListener(this::actionPerformed);
-        op2.addActionListener(this::actionPerformed);
-        op3.addActionListener(this::actionPerformed);
-        op4.addActionListener(this::actionPerformed);
-
-        optionsSettings();
+        optionsSettings(op1, 200, "op1");
+        optionsSettings(op2, 280, "op2");
+        optionsSettings(op3, 360, "op3");
+        optionsSettings(op4, 440, "op4");
 
         ButtonGroup group = new ButtonGroup();
         group.add(op1);
@@ -114,70 +109,67 @@ public class TakeQuizGUI extends JFrame {
         background.add(op4);
     }
 
-    // EFFECTS: sets options location, background, font
-    private void optionsSettings() {
-        op1.setBounds(230, 200, 520, 60);
-        op2.setBounds(230, 280, 520, 60);
-        op3.setBounds(230, 360, 520, 60);
-        op4.setBounds(230, 440, 520, 60);
-
-        op1.setBackground(new Color(219, 204, 160));
-        op2.setBackground(new Color(219, 204, 160));
-        op3.setBackground(new Color(219, 204, 160));
-        op4.setBackground(new Color(219, 204, 160));
-
-        op1.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-        op2.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-        op3.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-        op4.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+    // EFFECTS: options settings
+    private void optionsSettings(JRadioButton button, int y, String ac) {
+        button.setBounds(230, y, 520, 60);
+        button.setBackground(new Color(219, 204, 160));
+        button.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+        button.setActionCommand(ac);
     }
 
     // MODIFIES: this
     // EFFECTS: creates submit button
     private void initSubmitButton() {
         submitButton = new JButton();
-
-        submitButton.setBackground(new Color(230, 223, 204));
-        submitButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        submitButton.setForeground(new Color(0, 0, 0));
-        submitButton.setText("Submit");
-        submitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        submitButton.setActionCommand("submitButton");
-        submitButton.addActionListener(this::actionPerformed);
-        background.add(submitButton);
-        submitButton.setBounds(440, 550, 100, 30);
+        buttonSettings(submitButton, "Submit", "submitButton", 550);
     }
 
     // EFFECTS: produces what happens when option button is selected
-    private void optionPressed(ActionEvent e) {
-        if (e.getActionCommand().equals("op1")) {
-            if (op1.getText().equals(quiz.quizQuestions().get(questionNum).getAnswer())) {
-                score++;
-            }
-        } else if (e.getActionCommand().equals("op2")) {
-            if (op2.getText().equals(quiz.quizQuestions().get(questionNum).getAnswer())) {
-                score++;
-            }
-        } else if (e.getActionCommand().equals("op3")) {
-            if (op3.getText().equals(quiz.quizQuestions().get(questionNum).getAnswer())) {
-                score++;
-            }
-        } else if (e.getActionCommand().equals("op4")) {
-            if (op4.getText().equals(quiz.quizQuestions().get(questionNum).getAnswer())) {
-                score++;
-            }
+    private void optionPressed() {
+        if (op1.isSelected()) {
+            checkAnswer(op1);
+        } else if (op2.isSelected()) {
+            checkAnswer(op2);
+        } else if (op3.isSelected()) {
+            checkAnswer(op3);
+        } else if (op4.isSelected()) {
+            checkAnswer(op4);
+        }
+    }
+
+    // EFFECTS: checks if answer selected is correct
+    private void checkAnswer(JRadioButton option) {
+        if (option.getText().equals(quiz.quizQuestions().get(questionNum).getAnswer())) {
+            score++;
+            playAudio("./data/correct.wav");
+        } else {
+            playAudio("./data/wrong.wav");
+        }
+    }
+
+    // EFFECTS: plays audio
+    public void playAudio(String soundName) {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
         }
     }
 
     // EFFECTS: produces what happens when submit button is clicked
     private void actionPerformed(ActionEvent e) {
-        optionPressed(e);
-
         if (e.getActionCommand().equals("submitButton")) {
+            optionPressed();
             questionNum++;
 
             if (questionNum == quiz.numQuestions()) {
-                dispose();
+                clearWindow();
+                initScore();
+                initImage();
+                initFinishButton();
             } else {
                 question.setText(quiz.quizQuestions().get(questionNum).getQuestion());
                 op1.setText(quiz.quizQuestions().get(questionNum).getOption1());
@@ -186,6 +178,71 @@ public class TakeQuizGUI extends JFrame {
                 op4.setText(quiz.quizQuestions().get(questionNum).getOption4());
             }
         }
+
+        if (e.getActionCommand().equals("finishButton")) {
+            System.exit(0);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: clears everything off of window
+    private void clearWindow() {
+        question.setVisible(false);
+        op1.setVisible(false);
+        op2.setVisible(false);
+        op3.setVisible(false);
+        op4.setVisible(false);
+        submitButton.setVisible(false);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes image
+    //          find image in data folder, throws IOException if not found
+    private void initImage() {
+        JLabel end;
+        BufferedImage endImage = null;
+
+        try {
+            endImage = ImageIO.read(new File("./data/end.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        end = new JLabel(new ImageIcon(endImage));
+        background.add(end);
+        end.setBounds(320, 180, 350, 350);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates finish button
+    private void initFinishButton() {
+        finishButton = new JButton();
+        buttonSettings(finishButton, "Finish", "finishButton", 560);
+    }
+
+    // EFFECTS: button settings
+    private void buttonSettings(JButton button, String text, String ac, int y) {
+        button.setBackground(new Color(230, 223, 204));
+        button.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        button.setForeground(new Color(0, 0, 0));
+        button.setText(text);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setActionCommand(ac);
+        button.addActionListener(this::actionPerformed);
+        background.add(button);
+        button.setBounds(440, y, 100, 30);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates score label
+    private void initScore() {
+        scoreLabel = new JLabel();
+
+        scoreLabel.setFont(new Font("Bahnschrift Condensed", Font.PLAIN, 50));
+        scoreLabel.setForeground(new Color(0, 0, 0));
+        scoreLabel.setText("YOU GOT: " + score + " OUT OF " + quiz.numQuestions());
+        scoreLabel.setHorizontalAlignment(JLabel.CENTER);
+        scoreLabel.setBounds(0, 100, 1000, 40);
+        background.add(scoreLabel);
     }
 
     // method from JsonSerializationDemo

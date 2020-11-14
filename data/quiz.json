@@ -2,28 +2,20 @@
     "name": "Quiz",
     "questions": [
         {
-            "question": "how are you",
+            "question": "Do you like Harry Potter?",
+            "answer": "yes",
+            "option3": "maybe",
+            "option4": "yes",
+            "option1": "no",
+            "option2": "idk"
+        },
+        {
+            "question": "How are you?",
             "answer": "good",
-            "option3": "good",
-            "option4": "terrible",
-            "option1": "bad",
+            "option3": "stop",
+            "option4": "no",
+            "option1": "good",
             "option2": "ok"
-        },
-        {
-            "question": "whats the capital of canada",
-            "answer": "ottawa",
-            "option3": "ottawa",
-            "option4": "victoria",
-            "option1": "vancouver",
-            "option2": "toronto"
-        },
-        {
-            "question": "what's the best bird",
-            "answer": "duck",
-            "option3": "ostrich",
-            "option4": "flamingo",
-            "option1": "duck",
-            "option2": "goose"
         }
     ]
 }

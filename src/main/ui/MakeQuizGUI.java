@@ -30,6 +30,7 @@ public class MakeQuizGUI extends JFrame {
         super("Making a Quiz");
         initMakeQuizWindow();
         pack();
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
@@ -69,15 +70,8 @@ public class MakeQuizGUI extends JFrame {
         enterQuestion = new JTextField();
         enterAnswer = new JTextField();
 
-        enterQuestion.setBounds(250, 125, 500, 50);
-        enterQuestion.setFont(new Font("Arial", Font.PLAIN, 20));
-        enterQuestion.setCursor(new Cursor(Cursor.TEXT_CURSOR));
-        background.add(enterQuestion);
-
-        enterAnswer.setBounds(250, 225, 500, 50);
-        enterAnswer.setFont(new Font("Arial", Font.PLAIN, 20));
-        enterAnswer.setCursor(new Cursor(Cursor.TEXT_CURSOR));
-        background.add(enterAnswer);
+        textFieldSettings(enterQuestion, 125);
+        textFieldSettings(enterAnswer, 225);
 
         initOptions();
     }
@@ -91,25 +85,18 @@ public class MakeQuizGUI extends JFrame {
         enterOption3 = new JTextField();
         enterOption4 = new JTextField();
 
-        enterOption1.setBounds(250, 325, 500, 50);
-        enterOption1.setFont(new Font("Arial", Font.PLAIN, 20));
-        enterOption1.setCursor(new Cursor(Cursor.TEXT_CURSOR));
-        background.add(enterOption1);
+        textFieldSettings(enterOption1, 325);
+        textFieldSettings(enterOption2, 385);
+        textFieldSettings(enterOption3, 445);
+        textFieldSettings(enterOption4, 505);
+    }
 
-        enterOption2.setBounds(250, 385, 500, 50);
-        enterOption2.setFont(new Font("Arial", Font.PLAIN, 20));
-        enterOption2.setCursor(new Cursor(Cursor.TEXT_CURSOR));
-        background.add(enterOption2);
-
-        enterOption3.setBounds(250, 445, 500, 50);
-        enterOption3.setFont(new Font("Arial", Font.PLAIN, 20));
-        enterOption3.setCursor(new Cursor(Cursor.TEXT_CURSOR));
-        background.add(enterOption3);
-
-        enterOption4.setBounds(250, 505, 500, 50);
-        enterOption4.setFont(new Font("Arial", Font.PLAIN, 20));
-        enterOption4.setCursor(new Cursor(Cursor.TEXT_CURSOR));
-        background.add(enterOption4);
+    // EFFECTS: text field settings
+    private void textFieldSettings(JTextField textField, int y) {
+        textField.setBounds(250, y, 500, 50);
+        textField.setFont(new Font("Arial", Font.PLAIN, 20));
+        textField.setCursor(new Cursor(Cursor.TEXT_CURSOR));
+        background.add(textField);
     }
 
     // MODIFIES: this
@@ -119,23 +106,18 @@ public class MakeQuizGUI extends JFrame {
         answerPrompt = new JLabel();
         optionPrompt = new JLabel();
 
-        questionPrompt.setFont(new Font("Bahnschrift Condensed", Font.PLAIN, 20));
-        questionPrompt.setForeground(new Color(0, 0, 0));
-        questionPrompt.setText("Enter your question: ");
-        questionPrompt.setBounds(50, 100, 200, 84);
-        background.add(questionPrompt);
+        promptSettings(questionPrompt, 100, "Enter your question: ");
+        promptSettings(answerPrompt, 200, "Enter the answer: ");
+        promptSettings(optionPrompt, 300,"Enter the options: ");
+    }
 
-        answerPrompt.setFont(new Font("Bahnschrift Condensed", Font.PLAIN, 20));
-        answerPrompt.setForeground(new Color(0, 0, 0));
-        answerPrompt.setText("Enter the answer: ");
-        answerPrompt.setBounds(50, 200, 200, 84);
-        background.add(answerPrompt);
-
-        optionPrompt.setFont(new Font("Bahnschrift Condensed", Font.PLAIN, 20));
-        optionPrompt.setForeground(new Color(0, 0, 0));
-        optionPrompt.setText("Enter the options: ");
-        optionPrompt.setBounds(50, 300, 200, 84);
-        background.add(optionPrompt);
+    // EFFECTS: prompt settings
+    private void promptSettings(JLabel prompt, int y, String text) {
+        prompt.setFont(new Font("Bahnschrift Condensed", Font.PLAIN, 20));
+        prompt.setForeground(new Color(0, 0, 0));
+        prompt.setBounds(50, y, 200, 84);
+        prompt.setText(text);
+        background.add(prompt);
     }
 
     // EFFECTS: all buttons
@@ -150,14 +132,7 @@ public class MakeQuizGUI extends JFrame {
     private void initAddButton() {
         addButton = new JButton();
 
-        addButton.setBackground(new Color(230, 223, 204));
-        addButton.setFont(new Font("Times New Roman", Font.PLAIN, 15)); // NOI18N
-        addButton.setForeground(new Color(0, 0, 0));
-        addButton.setText("Add");
-        addButton.setActionCommand("addButton");
-        addButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        addButton.addActionListener(this::actionPerformed);
-        background.add(addButton);
+        buttonSettings(addButton, "Add", "addButton");
         addButton.setBounds(380, 590, 110, 40);
     }
 
@@ -166,14 +141,7 @@ public class MakeQuizGUI extends JFrame {
     private void initViewButton() {
         viewButton = new JButton();
 
-        viewButton.setBackground(new Color(230, 223, 204));
-        viewButton.setFont(new Font("Times New Roman", Font.PLAIN, 15)); // NOI18N
-        viewButton.setForeground(new Color(0, 0, 0));
-        viewButton.setText("View Questions");
-        viewButton.setActionCommand("viewButton");
-        viewButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        viewButton.addActionListener(this::actionPerformed);
-        background.add(viewButton);
+        buttonSettings(viewButton, "View Questions", "viewButton");
         viewButton.setBounds(420, 40, 150, 40);
     }
 
@@ -182,15 +150,20 @@ public class MakeQuizGUI extends JFrame {
     private void initFinishButton() {
         finishButton = new JButton();
 
-        finishButton.setBackground(new Color(230, 223, 204));
-        finishButton.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        finishButton.setForeground(new Color(0, 0, 0));
-        finishButton.setText("Finish");
-        finishButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        finishButton.setActionCommand("finishButton");
-        finishButton.addActionListener(this::actionPerformed);
-        background.add(finishButton);
+        buttonSettings(finishButton, "Finish", "finishButton");
         finishButton.setBounds(510, 590, 110, 40);
+    }
+
+    // EFFECTS: button settings
+    private void buttonSettings(JButton button, String text, String ac) {
+        button.setBackground(new Color(230, 223, 204));
+        button.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        button.setForeground(new Color(0, 0, 0));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.addActionListener(this::actionPerformed);
+        button.setText(text);
+        button.setActionCommand(ac);
+        background.add(button);
     }
 
     // EFFECTS: produces what buttons do when clicked
@@ -199,8 +172,7 @@ public class MakeQuizGUI extends JFrame {
             addQuestions();
             removeText();
         } else if (e.getActionCommand().equals("finishButton")) {
-            new SavePrompt(quiz);
-            dispose();
+            new SavePrompt(quiz, this);
         } else {
             new ViewQuestionsWindow(quiz);
         }
@@ -216,8 +188,12 @@ public class MakeQuizGUI extends JFrame {
         String option3 = enterOption3.getText();
         String option4 = enterOption4.getText();
 
-        quiz.addQuestion(new Questions(question, answer,
-                option1, option2, option3, option4));
+        if (question.isEmpty()) {
+            System.out.println("You didn't enter a question!");
+        } else {
+            quiz.addQuestion(new Questions(question, answer,
+                    option1, option2, option3, option4));
+        }
     }
 
     // MODIFIES: this
