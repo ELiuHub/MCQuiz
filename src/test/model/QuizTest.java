@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.EmptyException;
 import exceptions.InvalidInputException;
 import exceptions.LastQuestionException;
 import org.json.JSONArray;
@@ -35,22 +36,45 @@ class QuizTest {
 
     @Test
     public void testAddQuestionOnce() {
-        quiz.addQuestion(questions);
+        try {
+            quiz.addQuestion(questions);
+        } catch (EmptyException e) {
+            fail("EmptyException thrown but not expected");
+        }
         assertEquals(1, quiz.numQuestions());
+    }
+
+    @Test
+    public void testAddQuestionException() {
+        Questions q = new Questions("question", "answer", "", "", "", "");
+        try {
+            quiz.addQuestion(q);
+            fail("EmptyException expected but not thrown");
+        } catch (EmptyException e) {
+            // expected
+        }
     }
 
     @Test
     public void testAddMultipleQuestions() {
         for (int i = 0; i < numTimes; i++) {
-            quiz.addQuestion(questions);
+            try {
+                quiz.addQuestion(questions);
+            } catch (EmptyException e) {
+                fail("EmptyException thrown but not expected");
+            }
         }
         assertEquals(numTimes, quiz.numQuestions());
     }
 
     @Test
     public void testRemoveQuestion() {
-        quiz.addQuestion(questions);
-        quiz.addQuestion(questions);
+        try {
+            quiz.addQuestion(questions);
+            quiz.addQuestion(questions);
+        } catch (EmptyException e) {
+            fail("EmptyException thrown but not expected");
+        }
         try {
             quiz.removeQuestion(questions);
         } catch (LastQuestionException e) {
@@ -61,7 +85,11 @@ class QuizTest {
 
     @Test
     public void testRemoveQuestionExceptionExpected() {
-        quiz.addQuestion(questions);
+        try {
+            quiz.addQuestion(questions);
+        } catch (EmptyException e) {
+            fail("EmptyException thrown but not expected");
+        }
         try {
             quiz.removeQuestion(questions);
             fail("This is your last question!");
@@ -74,7 +102,11 @@ class QuizTest {
     public void testViewQuestions() {
         los = new ArrayList<>();
         los.add(questions.getQuestion());
-        quiz.addQuestion(questions);
+        try {
+            quiz.addQuestion(questions);
+        } catch (EmptyException e) {
+            fail("EmptyException thrown but not expected");
+        }
         assertEquals(los, quiz.viewQuestions());
     }
 
@@ -83,7 +115,11 @@ class QuizTest {
         los = new ArrayList<>();
         for (int i = 0; i < numTimes; i++) {
             los.add(questions.getQuestion());
-            quiz.addQuestion(questions);
+            try {
+                quiz.addQuestion(questions);
+            } catch (EmptyException e) {
+                fail("EmptyException thrown but not expected");
+            }
         }
         assertEquals(los, quiz.viewQuestions());
     }
@@ -92,7 +128,11 @@ class QuizTest {
     public void testQuizQuestions() {
         loq = new ArrayList<>();
         loq.add(questions);
-        quiz.addQuestion(questions);
+        try {
+            quiz.addQuestion(questions);
+        } catch (EmptyException e) {
+            fail("EmptyException thrown but not expected");
+        }
         assertEquals(loq, quiz.quizQuestions());
     }
 
@@ -101,7 +141,11 @@ class QuizTest {
         loq = new ArrayList<>();
         for (int i = 0; i < numTimes; i++) {
             loq.add(questions);
-            quiz.addQuestion(questions);
+            try {
+                quiz.addQuestion(questions);
+            } catch (EmptyException e) {
+                fail("EmptyException thrown but not expected");
+            }
         }
         assertEquals(loq, quiz.quizQuestions());
     }
@@ -120,7 +164,11 @@ class QuizTest {
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < numTimes; i++) {
             loq.add(questions);
-            quiz.addQuestion(questions);
+            try {
+                quiz.addQuestion(questions);
+            } catch (EmptyException e) {
+                fail("EmptyException thrown but not expected");
+            }
         }
         for (Questions q : loq) {
             jsonArray.put(q.toJson());

@@ -1,5 +1,6 @@
 package ui;
 
+import exceptions.EmptyException;
 import exceptions.InvalidInputException;
 import exceptions.LastQuestionException;
 import model.Quiz;
@@ -114,8 +115,12 @@ public class QuizApp {
             options.add(input.nextLine());
         }
 
-        quiz.addQuestion(new Questions(question, answer,
-                options.get(0), options.get(1), options.get(2), options.get(3)));
+        try {
+            quiz.addQuestion(new Questions(question, answer,
+                    options.get(0), options.get(1), options.get(2), options.get(3)));
+        } catch (EmptyException e) {
+            System.out.println("Not enough information entered!");
+        }
     }
 
     // method from TellerApp

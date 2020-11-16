@@ -1,5 +1,6 @@
 package persistence;
 
+import exceptions.EmptyException;
 import model.Questions;
 import model.Quiz;
 import org.junit.jupiter.api.Test;
@@ -65,7 +66,7 @@ class JsonWriterTest extends JsonTest {
                     "bad", "good", "terrible", "no", questions.get(0));
             checkQuestion("hello", "hi",
                     "stop", "no", "hi", "go away", questions.get(1));
-        } catch (IOException e) {
+        } catch (IOException | EmptyException e) {
             fail("Exception should not have been thrown");
         }
     }

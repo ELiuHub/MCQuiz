@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.EmptyException;
 import exceptions.LastQuestionException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,8 +31,15 @@ public class Quiz implements Writable {
 
     // MODIFIES: this
     // EFFECTS: add question q to quiz
-    public void addQuestion(Questions q) {
-        questions.add(q);
+    public void addQuestion(Questions q) throws EmptyException {
+        boolean optionsEmpty = q.getOption1().isEmpty() && q.getOption2().isEmpty() && q.getOption3().isEmpty()
+                && q.getOption4().isEmpty();
+
+        if (q.getQuestion().isEmpty() || q.getAnswer().isEmpty() || optionsEmpty) {
+            throw new EmptyException();
+        } else {
+            questions.add(q);
+        }
     }
 
     // MODIFIES: this

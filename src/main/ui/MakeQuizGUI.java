@@ -172,11 +172,7 @@ public class MakeQuizGUI extends JFrame {
     // EFFECTS: produces what buttons do when clicked
     private void quizButtonActionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("addButton")) {
-            try {
-                addQuestions();
-            } catch (EmptyException emptyException) {
-                System.out.println("You didn't enter enough information!");
-            }
+            addQuestions();
             removeText();
         } else if (e.getActionCommand().equals("finishButton")) {
             if (quiz.numQuestions() == 0) {
@@ -194,7 +190,7 @@ public class MakeQuizGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: throws EmptyException if no question, answer, or option has been entered
     //          otherwise adds entered questions to quiz
-    private void addQuestions() throws EmptyException {
+    private void addQuestions() {
         String question = enterQuestion.getText();
         String answer = enterAnswer.getText();
         String option1 = enterOption1.getText();
@@ -202,12 +198,10 @@ public class MakeQuizGUI extends JFrame {
         String option3 = enterOption3.getText();
         String option4 = enterOption4.getText();
 
-        boolean optionsEmpty = option1.isEmpty() && option2.isEmpty() && option3.isEmpty() && option4.isEmpty();
-
-        if (question.isEmpty() || answer.isEmpty() || optionsEmpty) {
-            throw new EmptyException();
-        } else {
+        try {
             quiz.addQuestion((new Questions(question, answer, option1, option2, option3, option4)));
+        } catch (EmptyException e) {
+            System.out.println("Not enough information entered!");
         }
     }
 
