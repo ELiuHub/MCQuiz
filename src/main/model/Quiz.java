@@ -30,7 +30,8 @@ public class Quiz implements Writable {
     }
 
     // MODIFIES: this
-    // EFFECTS: add question q to quiz
+    // EFFECTS: throws EmptyException if question, answer, or options are empty
+    //          otherwise adds question q to quiz
     public void addQuestion(Questions q) {
         boolean optionsEmpty = q.getOption1().isEmpty() && q.getOption2().isEmpty() && q.getOption3().isEmpty()
                 && q.getOption4().isEmpty();

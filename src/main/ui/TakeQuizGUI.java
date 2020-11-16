@@ -137,9 +137,9 @@ public class TakeQuizGUI extends JFrame {
     private void checkAnswer(JRadioButton option) {
         if (option.getText().equals(quiz.quizQuestions().get(questionNum).getAnswer())) {
             score++;
-            playAudio("./data/right.wav");
+            playAudio("./data/correct.wav");
         } else {
-            playAudio("./data/wrong.wav");
+            playAudio("./data/incorrect.wav");
         }
     }
 

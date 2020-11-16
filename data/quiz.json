@@ -4,26 +4,26 @@
         {
             "question": "How are you?",
             "answer": "good",
-            "option3": "ok",
+            "option3": "good",
             "option4": "terrible",
             "option1": "bad",
-            "option2": "good"
+            "option2": "ok"
         },
         {
             "question": "What colour is the sky?",
             "answer": "blue",
-            "option3": "blue",
-            "option4": "red",
-            "option1": "green",
-            "option2": "black"
+            "option3": "green",
+            "option4": "blue",
+            "option1": "black",
+            "option2": "red"
         },
         {
-            "question": "Who is the Prime Minister of Canada?",
-            "answer": "Justin Trudeau",
-            "option3": "Ryan Reynolds",
-            "option4": "Justin Trudeau",
-            "option1": "Justin Bieber",
-            "option2": "Michael Buble"
+            "question": "Are you stressed out from school?",
+            "answer": "yes",
+            "option3": "",
+            "option4": "",
+            "option1": "yes",
+            "option2": "no"
         }
     ]
 }

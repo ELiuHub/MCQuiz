@@ -188,8 +188,7 @@ public class MakeQuizGUI extends JFrame {
     }
 
     // MODIFIES: this
-    // EFFECTS: throws EmptyException if no question, answer, or option has been entered
-    //          otherwise adds entered questions to quiz
+    // EFFECTS: adds entered questions to quiz
     private void addQuestions() {
         String question = enterQuestion.getText();
         String answer = enterAnswer.getText();
