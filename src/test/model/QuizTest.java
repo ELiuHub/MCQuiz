@@ -41,6 +41,52 @@ class QuizTest {
     }
 
     @Test
+    public void testAddQuestionException() {
+        Questions q = new Questions("", "answer", "1", "2", "3", "4");
+        try {
+            quiz.addQuestion(q);
+            throw new EmptyException();
+        } catch (EmptyException e) {
+            // expected
+        }
+    }
+
+    @Test
+    public void testAddQuestionAnswerException() {
+        Questions q = new Questions("question", "", "1", "2", "3", "4");
+        try {
+            quiz.addQuestion(q);
+            throw new EmptyException();
+        } catch (EmptyException e) {
+            // expected
+        }
+    }
+
+    @Test
+    public void testAddQuestionOptionsException() {
+        Questions q = new Questions("question", "answer", "", "", "", "");
+        try {
+            quiz.addQuestion(q);
+            throw new EmptyException();
+        } catch (EmptyException e) {
+            // expected
+        }
+    }
+
+    @Test
+    public void testAddQuestionOptions() {
+        Questions q1 = new Questions("question", "answer", "1", "", "", "");
+        Questions q2 = new Questions("question", "answer", "", "2", "", "");
+        Questions q3 = new Questions("question", "answer", "", "", "3", "");
+        Questions q4 = new Questions("question", "answer", "", "", "", "4");
+        quiz.addQuestion(q1);
+        quiz.addQuestion(q2);
+        quiz.addQuestion(q3);
+        quiz.addQuestion(q4);
+        assertEquals(4, quiz.numQuestions());
+    }
+
+    @Test
     public void testAddMultipleQuestions() {
         for (int i = 0; i < numTimes; i++) {
             quiz.addQuestion(questions);
