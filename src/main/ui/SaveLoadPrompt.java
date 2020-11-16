@@ -112,15 +112,18 @@ public class SaveLoadPrompt extends JFrame {
         if (e.getActionCommand().equals("yesButton")) {
             if (choice.equals("Loading...")) {
                 loadQuiz();
+                dispose();
                 quizGUI.dispose();
                 new TakeQuizGUI(quiz);
             } else {
                 saveQuiz();
+                dispose();
                 makeQuizGUI.dispose();
                 new QuizGUI();
             }
         } else {
             if (choice.equals("Saving...")) {
+                dispose();
                 makeQuizGUI.dispose();
                 new QuizGUI();
             }

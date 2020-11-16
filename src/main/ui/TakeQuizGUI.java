@@ -3,9 +3,7 @@ package ui;
 import model.Quiz;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -139,21 +137,26 @@ public class TakeQuizGUI extends JFrame {
     private void checkAnswer(JRadioButton option) {
         if (option.getText().equals(quiz.quizQuestions().get(questionNum).getAnswer())) {
             score++;
-            playAudio("./data/correct.wav");
+            playAudio("./data/right.wav");
         } else {
             playAudio("./data/wrong.wav");
         }
     }
 
     // EFFECTS: plays audio
+    // link to how I did this: https://stackoverflow.com/questions/15526255/best-way-to-get-sound-on-button-press-for-a-java-calculator
     public void playAudio(String soundName) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
-        } catch (Exception ex) {
-            System.out.println("Error with playing sound.");
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("File not found");
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
         }
     }
 
@@ -196,6 +199,7 @@ public class TakeQuizGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: initializes image
     //          find image in data folder, throws IOException if not found
+    // Link to how I did this: https://stackoverflow.com/questions/299495/how-to-add-an-image-to-a-jpanel?rq=1
     private void initImage() {
         JLabel end;
         BufferedImage endImage = null;
@@ -203,7 +207,7 @@ public class TakeQuizGUI extends JFrame {
         try {
             endImage = ImageIO.read(new File("./data/end.jpg"));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Image not found");
         }
         end = new JLabel(new ImageIcon(endImage));
         background.add(end);

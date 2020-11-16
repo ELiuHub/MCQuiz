@@ -1,5 +1,6 @@
 package ui;
 
+import exceptions.EmptyException;
 import model.Questions;
 import model.Quiz;
 
@@ -171,39 +172,42 @@ public class MakeQuizGUI extends JFrame {
     // EFFECTS: produces what buttons do when clicked
     private void quizButtonActionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("addButton")) {
-            addQuestions();
+            try {
+                addQuestions();
+            } catch (EmptyException emptyException) {
+                System.out.println("You didn't enter enough information!");
+            }
             removeText();
         } else if (e.getActionCommand().equals("finishButton")) {
-            new SaveLoadPrompt(quiz, null, this,"Saving...");
+            if (quiz.numQuestions() == 0) {
+                System.out.println("You didn't enter any questions into your quiz!");
+                dispose();
+                new QuizGUI();
+            } else {
+                new SaveLoadPrompt(quiz, null, this,"Saving...");
+            }
         } else {
             new ViewQuestionsWindow(quiz);
         }
     }
 
     // MODIFIES: this
-    // EFFECTS: adds entered questions to quiz
-    private void addQuestions() {
+    // EFFECTS: throws EmptyException if no question, answer, or option has been entered
+    //          otherwise adds entered questions to quiz
+    private void addQuestions() throws EmptyException {
         String question = enterQuestion.getText();
         String answer = enterAnswer.getText();
         String option1 = enterOption1.getText();
         String option2 = enterOption2.getText();
         String option3 = enterOption3.getText();
         String option4 = enterOption4.getText();
-        List<String> options = new ArrayList<>();
-        options.add(option1);
-        options.add(option2);
-        options.add(option3);
-        options.add(option4);
 
-        if (question.isEmpty()) {
-            System.out.println("You didn't enter a question!");
-        } else if (answer.isEmpty()) {
-            System.out.println("You didn't enter an answer!");
-        } else if (options.isEmpty()) {
-            System.out.println("You didn't enter any options!");
+        boolean optionsEmpty = option1.isEmpty() && option2.isEmpty() && option3.isEmpty() && option4.isEmpty();
+
+        if (question.isEmpty() || answer.isEmpty() || optionsEmpty) {
+            throw new EmptyException();
         } else {
-            quiz.addQuestion(new Questions(question, answer,
-                        option1, option2, option3, option4));
+            quiz.addQuestion((new Questions(question, answer, option1, option2, option3, option4)));
         }
     }
 

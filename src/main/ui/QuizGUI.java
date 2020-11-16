@@ -57,6 +57,7 @@ public class QuizGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: initializes image
     //          find image in data folder, throws IOException if not found
+    // Link to how I did this: https://stackoverflow.com/questions/299495/how-to-add-an-image-to-a-jpanel?rq=1
     private void initImage() {
         JLabel brain;
         BufferedImage brainImage = null;
