@@ -45,8 +45,30 @@ class QuizTest {
     }
 
     @Test
-    public void testAddQuestionException() {
+    public void testAddQuestionOptionsEmptyException() {
         Questions q = new Questions("question", "answer", "", "", "", "");
+        try {
+            quiz.addQuestion(q);
+            fail("EmptyException expected but not thrown");
+        } catch (EmptyException e) {
+            // expected
+        }
+    }
+
+    @Test
+    public void testAddQuestionAnswerEmptyException() {
+        Questions q = new Questions("question", "", "1", "2", "3", "4");
+        try {
+            quiz.addQuestion(q);
+            fail("EmptyException expected but not thrown");
+        } catch (EmptyException e) {
+            // expected
+        }
+    }
+
+    @Test
+    public void testAddQuestionEmptyException() {
+        Questions q = new Questions("", "answer", "1", "2", "3", "4");
         try {
             quiz.addQuestion(q);
             fail("EmptyException expected but not thrown");
