@@ -31,14 +31,18 @@ public class Quiz implements Writable {
 
     // MODIFIES: this
     // EFFECTS: add question q to quiz
-    public void addQuestion(Questions q) throws EmptyException {
+    public void addQuestion(Questions q) {
         boolean optionsEmpty = q.getOption1().isEmpty() && q.getOption2().isEmpty() && q.getOption3().isEmpty()
                 && q.getOption4().isEmpty();
 
-        if (q.getQuestion().isEmpty() || q.getAnswer().isEmpty() || optionsEmpty) {
-            throw new EmptyException();
-        } else {
-            questions.add(q);
+        try {
+            if (q.getQuestion().isEmpty() || q.getAnswer().isEmpty() || optionsEmpty) {
+                throw new EmptyException();
+            } else {
+                questions.add(q);
+            }
+        } catch (EmptyException e) {
+            System.out.println("Not enough information entered!");
         }
     }
 

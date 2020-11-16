@@ -36,83 +36,22 @@ class QuizTest {
 
     @Test
     public void testAddQuestionOnce() {
-        try {
-            quiz.addQuestion(questions);
-        } catch (EmptyException e) {
-            fail("EmptyException thrown but not expected");
-        }
+        quiz.addQuestion(questions);
         assertEquals(1, quiz.numQuestions());
-    }
-
-    @Test
-    public void testAddQuestionOptionsEmptyException() {
-        Questions q = new Questions("question", "answer", "", "", "", "");
-        try {
-            quiz.addQuestion(q);
-            fail("EmptyException expected but not thrown");
-        } catch (EmptyException e) {
-            // expected
-        }
-    }
-
-    @Test
-    public void testAddQuestionOptionsOne() {
-        Questions q1 = new Questions("question", "answer", "1", "", "", "");
-        Questions q2 = new Questions("question", "answer", "", "2", "", "");
-        Questions q3 = new Questions("question", "answer", "", "", "3", "");
-        Questions q4 = new Questions("question", "answer", "", "", "", "4");
-        try {
-            quiz.addQuestion(q1);
-            quiz.addQuestion(q2);
-            quiz.addQuestion(q3);
-            quiz.addQuestion(q4);
-        } catch (EmptyException e) {
-            fail("EmptyException thrown but not expected");
-        }
-    }
-
-    @Test
-    public void testAddQuestionAnswerEmptyException() {
-        Questions q = new Questions("question", "", "1", "2", "3", "4");
-        try {
-            quiz.addQuestion(q);
-            fail("EmptyException expected but not thrown");
-        } catch (EmptyException e) {
-            // expected
-        }
-    }
-
-    @Test
-    public void testAddQuestionEmptyException() {
-        Questions q = new Questions("", "answer", "1", "2", "3", "4");
-        try {
-            quiz.addQuestion(q);
-            fail("EmptyException expected but not thrown");
-        } catch (EmptyException e) {
-            // expected
-        }
     }
 
     @Test
     public void testAddMultipleQuestions() {
         for (int i = 0; i < numTimes; i++) {
-            try {
-                quiz.addQuestion(questions);
-            } catch (EmptyException e) {
-                fail("EmptyException thrown but not expected");
-            }
+            quiz.addQuestion(questions);
         }
         assertEquals(numTimes, quiz.numQuestions());
     }
 
     @Test
     public void testRemoveQuestion() {
-        try {
-            quiz.addQuestion(questions);
-            quiz.addQuestion(questions);
-        } catch (EmptyException e) {
-            fail("EmptyException thrown but not expected");
-        }
+        quiz.addQuestion(questions);
+        quiz.addQuestion(questions);
         try {
             quiz.removeQuestion(questions);
         } catch (LastQuestionException e) {
@@ -123,11 +62,7 @@ class QuizTest {
 
     @Test
     public void testRemoveQuestionExceptionExpected() {
-        try {
-            quiz.addQuestion(questions);
-        } catch (EmptyException e) {
-            fail("EmptyException thrown but not expected");
-        }
+        quiz.addQuestion(questions);
         try {
             quiz.removeQuestion(questions);
             fail("This is your last question!");
@@ -140,11 +75,7 @@ class QuizTest {
     public void testViewQuestions() {
         los = new ArrayList<>();
         los.add(questions.getQuestion());
-        try {
-            quiz.addQuestion(questions);
-        } catch (EmptyException e) {
-            fail("EmptyException thrown but not expected");
-        }
+        quiz.addQuestion(questions);
         assertEquals(los, quiz.viewQuestions());
     }
 
@@ -153,11 +84,7 @@ class QuizTest {
         los = new ArrayList<>();
         for (int i = 0; i < numTimes; i++) {
             los.add(questions.getQuestion());
-            try {
-                quiz.addQuestion(questions);
-            } catch (EmptyException e) {
-                fail("EmptyException thrown but not expected");
-            }
+            quiz.addQuestion(questions);
         }
         assertEquals(los, quiz.viewQuestions());
     }
@@ -166,11 +93,7 @@ class QuizTest {
     public void testQuizQuestions() {
         loq = new ArrayList<>();
         loq.add(questions);
-        try {
-            quiz.addQuestion(questions);
-        } catch (EmptyException e) {
-            fail("EmptyException thrown but not expected");
-        }
+        quiz.addQuestion(questions);
         assertEquals(loq, quiz.quizQuestions());
     }
 
@@ -179,11 +102,7 @@ class QuizTest {
         loq = new ArrayList<>();
         for (int i = 0; i < numTimes; i++) {
             loq.add(questions);
-            try {
-                quiz.addQuestion(questions);
-            } catch (EmptyException e) {
-                fail("EmptyException thrown but not expected");
-            }
+            quiz.addQuestion(questions);
         }
         assertEquals(loq, quiz.quizQuestions());
     }
@@ -202,11 +121,7 @@ class QuizTest {
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < numTimes; i++) {
             loq.add(questions);
-            try {
-                quiz.addQuestion(questions);
-            } catch (EmptyException e) {
-                fail("EmptyException thrown but not expected");
-            }
+            quiz.addQuestion(questions);
         }
         for (Questions q : loq) {
             jsonArray.put(q.toJson());

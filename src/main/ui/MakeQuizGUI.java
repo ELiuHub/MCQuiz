@@ -198,11 +198,7 @@ public class MakeQuizGUI extends JFrame {
         String option3 = enterOption3.getText();
         String option4 = enterOption4.getText();
 
-        try {
-            quiz.addQuestion((new Questions(question, answer, option1, option2, option3, option4)));
-        } catch (EmptyException e) {
-            System.out.println("Not enough information entered!");
-        }
+        quiz.addQuestion((new Questions(question, answer, option1, option2, option3, option4)));
     }
 
     // MODIFIES: this

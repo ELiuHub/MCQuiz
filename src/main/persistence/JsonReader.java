@@ -1,6 +1,5 @@
 package persistence;
 
-import exceptions.EmptyException;
 import model.Questions;
 import model.Quiz;
 import org.json.JSONArray;
@@ -67,10 +66,6 @@ public class JsonReader {
         String o3 = jsonObject.getString("option3");
         String o4 = jsonObject.getString("option4");
         Questions questions = new Questions(question, ans, o1, o2, o3, o4);
-        try {
-            q.addQuestion(questions);
-        } catch (EmptyException e) {
-            e.printStackTrace();
-        }
+        q.addQuestion(questions);
     }
 }

@@ -115,12 +115,8 @@ public class QuizApp {
             options.add(input.nextLine());
         }
 
-        try {
-            quiz.addQuestion(new Questions(question, answer,
-                    options.get(0), options.get(1), options.get(2), options.get(3)));
-        } catch (EmptyException e) {
-            System.out.println("Not enough information entered!");
-        }
+        quiz.addQuestion(new Questions(question, answer,
+                options.get(0), options.get(1), options.get(2), options.get(3)));
     }
 
     // method from TellerApp
