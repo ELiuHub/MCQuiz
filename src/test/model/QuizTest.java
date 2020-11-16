@@ -56,6 +56,22 @@ class QuizTest {
     }
 
     @Test
+    public void testAddQuestionOptionsOne() {
+        Questions q1 = new Questions("question", "answer", "1", "", "", "");
+        Questions q2 = new Questions("question", "answer", "", "2", "", "");
+        Questions q3 = new Questions("question", "answer", "", "", "3", "");
+        Questions q4 = new Questions("question", "answer", "", "", "", "4");
+        try {
+            quiz.addQuestion(q1);
+            quiz.addQuestion(q2);
+            quiz.addQuestion(q3);
+            quiz.addQuestion(q4);
+        } catch (EmptyException e) {
+            fail("EmptyException thrown but not expected");
+        }
+    }
+
+    @Test
     public void testAddQuestionAnswerEmptyException() {
         Questions q = new Questions("question", "", "1", "2", "3", "4");
         try {
