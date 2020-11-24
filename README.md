@@ -33,3 +33,9 @@ I will be able to actually use it.
 method in a previous phase that threw a checked exception. In my Quiz class, the removeQuestion method throws a checked 
 exception whenever the user tries to remove the last question in the quiz. This exception is being caught in my
 ViewQuestionsWindow class.
+
+## Phase 4 Task 3
+- If I had more time to work on this project, I would have created a class called GUI and then have all the GUI classes
+in my project extend it. The constructor for all my GUI classes are very similar, and they also all have a method that
+initializes the window. By introducing a new super class that all these classes would extend would help eliminate a lot of code
+duplication.
