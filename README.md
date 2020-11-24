@@ -28,3 +28,8 @@ I will be able to actually use it.
 - As a user, I want to be able to save my quiz to file
 - As a user, I want to be able to load my quiz and take it
 
+## Phase 4 Task 2
+- The option that I chose to implement was to make a class in my model package robust because I had already designed a
+method in a previous phase that threw a checked exception. In my Quiz class, the removeQuestion method throws a checked 
+exception whenever the user tries to remove the last question in the quiz. This exception is being caught in my
+ViewQuestionsWindow class.

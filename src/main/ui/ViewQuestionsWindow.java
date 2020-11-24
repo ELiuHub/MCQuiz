@@ -67,7 +67,7 @@ public class ViewQuestionsWindow extends JFrame {
         } catch (LastQuestionException lastQuestionException) {
             System.out.println("This is the last question in the quiz!");
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-            System.out.println("There are no questions!");
+            System.out.println("No question has been selected!");
         }
     }
 
