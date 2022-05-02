@@ -58,8 +58,7 @@ public class MakeQuizGUI extends JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(background, GroupLayout.Alignment.TRAILING,
-                                GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
+                        .addComponent(background, GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)

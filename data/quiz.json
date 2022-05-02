@@ -1,29 +1,11 @@
 {
     "name": "Quiz",
-    "questions": [
-        {
-            "question": "How are you?",
-            "answer": "good",
-            "option3": "good",
-            "option4": "terrible",
-            "option1": "bad",
-            "option2": "ok"
-        },
-        {
-            "question": "What colour is the sky?",
-            "answer": "blue",
-            "option3": "green",
-            "option4": "blue",
-            "option1": "black",
-            "option2": "red"
-        },
-        {
-            "question": "Are you stressed out from school?",
-            "answer": "yes",
-            "option3": "",
-            "option4": "",
-            "option1": "yes",
-            "option2": "no"
-        }
-    ]
+    "questions": [{
+        "question": "How are You",
+        "answer": "good",
+        "option3": "",
+        "option4": "",
+        "option1": "good",
+        "option2": "bad"
+    }]
 }
